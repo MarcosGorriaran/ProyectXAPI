@@ -1,4 +1,6 @@
-﻿namespace ProyectXAPI.Models
+﻿using NHibernate.Action;
+
+namespace ProyectXAPI.Models
 {
     public class Profile
     {
@@ -6,7 +8,7 @@
         private string _profileName;
         private Acount _creator;
 
-        public string ProfileName
+        public virtual string ProfileName
         {
             get
             {
@@ -21,7 +23,7 @@
                 _profileName = value;
             }
         }
-        public Acount Creator
+        public virtual Acount Creator
         {
             get
             {
@@ -30,6 +32,24 @@
             set
             {
                 _creator = value;
+            }
+        }
+        public override bool Equals(object? obj)
+        {
+            if(obj == null || !(obj is Profile))
+            {
+                return false;
+            }
+            Profile other = (Profile)obj;
+            return other.ProfileName == ProfileName && Creator.Equals(other.Creator);
+        }
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = (Creator != null ? Creator.GetHashCode() : 0);
+                hashCode = hashCode ^ (_profileName != null ? _profileName.GetHashCode() : 0);
+                return hashCode;
             }
         }
     }

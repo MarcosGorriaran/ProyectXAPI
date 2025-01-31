@@ -1,4 +1,6 @@
-﻿namespace ProyectXAPI.Models
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+
+namespace ProyectXAPI.Models
 {
     public class Session
     {
@@ -6,7 +8,7 @@
         
         private string _sessionID;
         private DateOnly _dateGame;
-        public string SessionID
+        public virtual string SessionID
         {
             get
             {
@@ -21,16 +23,25 @@
                 _sessionID = value;
             }
         }
-        public DateOnly DateGame
+        public virtual DateTime DateGame
         {
             get
             {
-                return _dateGame;
+                return _dateGame.ToDateTime(new TimeOnly(0,0));
             }
             set
             {
-                _dateGame = value;
+                _dateGame = DateOnly.FromDateTime(value);
             }
+        }
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || !(obj is Session))
+            {
+                return false;
+            }
+            Session other = (Session)obj;
+            return other.SessionID == SessionID;
         }
     }
 }

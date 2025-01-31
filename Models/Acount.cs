@@ -6,7 +6,7 @@
         const int MaxPasswordLength = 100;
         private string _username;
         private string _password;
-        public string Username 
+        public virtual string Username 
         {
             get 
             {
@@ -21,7 +21,7 @@
                 _username = value; 
             }
         }
-        public string Password
+        public virtual string Password
         {
             get
             {
@@ -35,6 +35,15 @@
                 }
                 _password = value;
             }
+        }
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || !(obj is Acount))
+            {
+                return false;
+            }
+            Acount other = (Acount)obj;
+            return Username == other.Username;
         }
     }
 }

@@ -10,8 +10,10 @@ namespace ProyectXAPI.Maps
         {
             Table(TableName);
 
-            References(x=>x.Profile).Columns("PROFILE","PROFILECREATOR");
-            References(x => x.Session).Columns("SESSIONID");
+            CompositeId()
+                .KeyReference(x => x.Profile, "PROFILE", "PROFILECREATOR")
+                .KeyReference(x => x.Session, "SESSIONID");
+
             Map(x => x.Kills).Column("KILLS");
             Map(x => x.Deaths).Column("DEATHS");
         }
