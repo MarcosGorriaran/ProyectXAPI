@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ProyectXAPI.Models;
 
 namespace ProyectXAPI.Controllers
 {

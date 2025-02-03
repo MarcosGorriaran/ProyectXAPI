@@ -1,4 +1,4 @@
-namespace ProyectXAPI
+namespace ProyectXAPI.Models
 {
     public class WeatherForecast
     {

@@ -1,4 +1,7 @@
-﻿namespace ProyectXAPI.Models
+﻿using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.AspNetCore.Http.HttpResults;
+
+namespace ProyectXAPI.Models
 {
     public class SessionData
     {
@@ -11,7 +14,7 @@
         private int _kills;
         private int _deaths;
 
-        public Profile Profile
+        public virtual Profile Profile
         {
             get
             {
@@ -22,7 +25,7 @@
                 _profile = value;
             }
         }
-        public Session Session
+        public virtual Session Session
         {
             get
             {
@@ -33,7 +36,7 @@
                 _session = value;
             }
         }
-        public int Kills
+        public virtual int Kills
         {
             get
             {
@@ -44,7 +47,7 @@
                 _kills = value;
             }
         }
-        public int Deaths
+        public virtual int Deaths
         {
             get
             {
@@ -53,6 +56,24 @@
             set
             {
                 _deaths = value;
+            }
+        }
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || !(obj is SessionData))
+            {
+                return false;
+            }
+            SessionData other = (SessionData)obj;
+            return other.Profile == Profile && Session == other.Session;
+        }
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = (Profile != null ? Profile.GetHashCode() : 0);
+                hashCode = hashCode ^ (Session != null ? Session.GetHashCode() : 0);
+                return hashCode;
             }
         }
     }

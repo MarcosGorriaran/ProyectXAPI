@@ -1,4 +1,6 @@
 
+using ProyectXAPI.Connections;
+
 namespace ProyectXAPI
 {
     public class Program
@@ -6,7 +8,7 @@ namespace ProyectXAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            SessionFactoryCloud.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? String.Empty;
             // Add services to the container.
 
             builder.Services.AddControllers();
