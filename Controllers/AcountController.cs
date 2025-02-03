@@ -31,7 +31,12 @@ namespace ProyectXAPI.Controllers
                 {
                     Response.Message = WrongLogin;
                 }
-            }catch(Exception ex)
+            }catch(NullReferenceException ex)
+            {
+                Response.Message = WrongLogin;
+                Response.IsSuccess = false;
+            }
+            catch(Exception ex)
             {
                 Response.Message = ex.Message;
                 Response.IsSuccess = false;
@@ -71,6 +76,8 @@ namespace ProyectXAPI.Controllers
                                 return false;
                             }
                         }).ToArray();
+
+                    Response.Data = profiles;
                 }
                 else
                 {

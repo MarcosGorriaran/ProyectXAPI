@@ -5,10 +5,11 @@ namespace ProyectXAPI
 {
     public class Program
     {
+        const string PostgressConStringName = "DefaultConnection";
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            SessionFactoryCloud.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? String.Empty;
+            SessionFactoryCloud.ConnectionString = builder.Configuration.GetConnectionString(PostgressConStringName) ?? String.Empty;
             // Add services to the container.
 
             builder.Services.AddControllers();
