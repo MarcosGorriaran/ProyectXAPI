@@ -1,6 +1,8 @@
-﻿namespace ProyectXAPI.Controllers
+﻿using ProyectXAPI.Models;
+
+namespace ProyectXAPI.Controllers
 {
-    public class ProfileController
+    public class ProfileController : Controller<Profile>
     {
     }
 }
