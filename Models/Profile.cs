@@ -1,8 +1,6 @@
-﻿using NHibernate.Action;
-
-namespace ProyectXAPI.Models
+﻿namespace ProyectXAPI.Models
 {
-    public class Profile
+    public class Profile : Model
     {
         const int ProfileNameLength = 50;
         private string _profileName;
