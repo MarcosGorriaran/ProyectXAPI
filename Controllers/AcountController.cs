@@ -91,5 +91,49 @@ namespace ProyectXAPI.Controllers
             }
             return Response;
         }
+        [HttpPost("DeleteAcount")]
+        public ResponseDTO DeleteAcount(Acount acount)
+        {
+            try
+            {
+                if(CheckLogin(acount, out Acount hibernatedAcount))
+                {
+                    DbSession.Delete(hibernatedAcount);
+                }
+                else
+                {
+                    Response.IsSuccess = false;
+                    Response.Message = WrongLogin;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.IsSuccess = false;
+                Response.Message = ex.Message;
+            }
+
+            return Response;
+        }
+        [HttpPost("UpdateAcount")]
+        public ResponseDTO UpdateAcount(AcountChangePassword acountChangePassword)
+        {
+            try
+            {
+                if (CheckLogin(acountChangePassword, out Acount hibernatedAcount))
+                {
+                    hibernatedAcount.Password = acountChangePassword.NewPassword;
+                    DbSession.Update(hibernatedAcount);
+                }
+                else
+                {
+                    Response.IsSuccess = false;
+                    Response.Message = WrongLogin;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }
