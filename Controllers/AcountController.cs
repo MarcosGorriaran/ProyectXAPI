@@ -7,12 +7,18 @@ namespace ProyectXAPI.Controllers
 {
     public class AcountController : Controller<Acount>
     {
-        const string WrongLogin = "Incorrect login, check user and password";
-
+        public const string WrongLogin = "Incorrect login, check user and password";
+        
         public AcountController() : base()
         {}
 
-        public bool CheckLogin(Acount acount,out Acount searchedAcount)
+        public static bool CheckLogin(Acount acount)
+        {
+            CRUD<Acount> acountDB = new CRUD<Acount>();
+            Acount searchedAcount = acountDB.SelectById(acount.Username);
+            return (searchedAcount.Password == acount.Password);
+        }
+        private bool CheckLogin(Acount acount,out Acount searchedAcount)
         {
             searchedAcount = DbSession.SelectById(acount.Username);
             return (searchedAcount.Password == acount.Password);
