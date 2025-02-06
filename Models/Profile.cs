@@ -1,11 +1,28 @@
-﻿namespace ProyectXAPI.Models
+﻿using System.Text.Json.Serialization;
+
+namespace ProyectXAPI.Models
 {
     public class Profile : Model
     {
+        #region Attributes
         const int ProfileNameLength = 50;
+        private int ?_id;
         private string _profileName;
         private Acount _creator;
+        #endregion
 
+        #region Getters and Setters
+        public virtual int? Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
+        }
         public virtual string ProfileName
         {
             get
@@ -32,6 +49,7 @@
                 _creator = value;
             }
         }
+        #endregion
         public override bool Equals(object? obj)
         {
             if(obj == null || !(obj is Profile))
@@ -39,14 +57,14 @@
                 return false;
             }
             Profile other = (Profile)obj;
-            return other.ProfileName == ProfileName && Creator.Equals(other.Creator);
+            return other.Id == Id && Creator.Equals(other.Creator);
         }
         public override int GetHashCode()
         {
             unchecked
             {
                 int hashCode = (Creator != null ? Creator.GetHashCode() : 0);
-                hashCode = hashCode ^ (_profileName != null ? _profileName.GetHashCode() : 0);
+                hashCode = hashCode ^ (Id != null ? Id.GetHashCode() : 0);
                 return hashCode;
             }
         }

@@ -15,6 +15,9 @@ namespace ProyectXAPI.Controllers
             {
                 if (AcountController.CheckLogin(profile.Creator))
                 {
+                    int id = DbSession.SelectAll().Count()+1;
+                    profile.Id = id;
+
                     DbSession.Insert(profile);
                 }
                 else
