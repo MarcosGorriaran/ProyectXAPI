@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ProyectXAPI.Models
 {
-    public class SessionData
+    public class SessionData : Model
     {
         const int ProfileLength = 50;
         const int ProfileCreatorLength = 50;
