@@ -5,7 +5,7 @@ namespace ProyectXAPI.Maps
 {
     public class SessionMap : ClassMap<Session>
     {
-        const string TableName = "Sessions";
+        const string TableName = "Session";
         public SessionMap()
         {
             Table(TableName);
