@@ -4,11 +4,10 @@ namespace ProyectXAPI.Models
 {
     public class Session : Model
     {
-        const int MaxSessionIDLength = 10;
         
-        private string _sessionID;
-        private DateOnly _dateGame;
-        public virtual string SessionID
+        private int? _sessionID;
+        private DateTime? _dateGame;
+        public virtual int? SessionID
         {
             get
             {
@@ -16,22 +15,18 @@ namespace ProyectXAPI.Models
             }
             set
             {
-                if(value.Length > MaxSessionIDLength)
-                {
-                    throw new Exception("Session ID is too long");
-                }
                 _sessionID = value;
             }
         }
-        public virtual DateTime DateGame
+        public virtual DateTime? DateGame
         {
             get
             {
-                return _dateGame.ToDateTime(new TimeOnly(0,0));
+                return _dateGame;
             }
             set
             {
-                _dateGame = DateOnly.FromDateTime(value);
+                _dateGame = value;
             }
         }
         public override bool Equals(object? obj)
