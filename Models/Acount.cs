@@ -1,6 +1,6 @@
 ﻿namespace ProyectXAPI.Models
 {
-    public class Acount
+    public class Acount : Model
     {
         const int MaxUsernameLength = 50;
         const int MaxPasswordLength = 100;
