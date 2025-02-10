@@ -1,7 +1,8 @@
+using ProyectXAPI.Models;
 using ProyectXAPI.Models.DTO;
 using ProyectXAPI.Utils;
 
-public abstract class Controller<CRUDDataType>
+public abstract class Controller<CRUDDataType> where CRUDDataType : Model
 {
     private ResponseDTO _response;
     private CRUD<CRUDDataType> _dbSession;
