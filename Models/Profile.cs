@@ -31,6 +31,7 @@ namespace ProyectXAPI.Models
             }
             set
             {
+                if(value == null) value = string.Empty;
                 if (value.Length > ProfileNameLength)
                 {
                     throw new Exception("Profile name is too long");

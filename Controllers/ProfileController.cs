@@ -15,7 +15,16 @@ namespace ProyectXAPI.Controllers
             {
                 if (AcountController.CheckLogin(profile.Creator))
                 {
-                    int id = DbSession.SelectAll().Count()+1;
+                    int id;
+                    try
+                    {
+                        id = DbSession.SelectAll().Where(obj=>obj.Creator.Username==profile.Creator.Username).Max(obj => obj.Id).Value+1;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        id = 0;
+                    }
+                    
                     profile.Id = id;
 
                     DbSession.Insert(profile);
@@ -34,7 +43,7 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
 
-        [HttpPost("UpdateProfile")]
+        [HttpPut("UpdateProfile")]
         public ResponseDTO UpdateProfile([FromBody] Profile profile)
         {
             try
@@ -57,7 +66,7 @@ namespace ProyectXAPI.Controllers
             }
             return Response;
         }
-        [HttpPost("DeleteProfile")]
+        [HttpDelete("DeleteProfile")]
         public ResponseDTO DeleteProfile([FromBody] Profile profile)
         {
             try

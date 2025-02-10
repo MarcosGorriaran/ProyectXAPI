@@ -13,7 +13,7 @@ namespace ProyectXAPI.Maps
             CompositeId()
                 .KeyProperty(x => x.Id, "ProfileID")
                 .KeyReference(x => x.Creator, "CREATOR");
-            Map(x => x.ProfileName, "PROFILE_NAME");
+            Map(x => x.ProfileName, "PROFILENAME");
         }
     }
 }
