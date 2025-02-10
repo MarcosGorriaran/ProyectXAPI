@@ -11,8 +11,9 @@ namespace ProyectXAPI.Maps
             Table(TableName);
 
             CompositeId()
-                .KeyProperty(x => x.ProfileName, "PROFILENAME")
+                .KeyProperty(x => x.Id, "ProfileID")
                 .KeyReference(x => x.Creator, "CREATOR");
+            Map(x => x.ProfileName, "PROFILENAME");
         }
     }
 }

@@ -1,13 +1,28 @@
-﻿using NHibernate.Action;
+﻿using System.Text.Json.Serialization;
 
 namespace ProyectXAPI.Models
 {
-    public class Profile
+    public class Profile : Model
     {
+        #region Attributes
         const int ProfileNameLength = 50;
+        private int ?_id;
         private string _profileName;
         private Acount _creator;
+        #endregion
 
+        #region Getters and Setters
+        public virtual int? Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
+        }
         public virtual string ProfileName
         {
             get
@@ -16,6 +31,7 @@ namespace ProyectXAPI.Models
             }
             set
             {
+                if(value == null) value = string.Empty;
                 if (value.Length > ProfileNameLength)
                 {
                     throw new Exception("Profile name is too long");
@@ -34,6 +50,7 @@ namespace ProyectXAPI.Models
                 _creator = value;
             }
         }
+        #endregion
         public override bool Equals(object? obj)
         {
             if(obj == null || !(obj is Profile))
@@ -41,14 +58,14 @@ namespace ProyectXAPI.Models
                 return false;
             }
             Profile other = (Profile)obj;
-            return other.ProfileName == ProfileName && Creator.Equals(other.Creator);
+            return other.Id == Id && Creator.Equals(other.Creator);
         }
         public override int GetHashCode()
         {
             unchecked
             {
                 int hashCode = (Creator != null ? Creator.GetHashCode() : 0);
-                hashCode = hashCode ^ (_profileName != null ? _profileName.GetHashCode() : 0);
+                hashCode = hashCode ^ (Id != null ? Id.GetHashCode() : 0);
                 return hashCode;
             }
         }
