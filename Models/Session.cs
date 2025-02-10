@@ -2,7 +2,7 @@
 
 namespace ProyectXAPI.Models
 {
-    public class Session
+    public class Session : Model
     {
         const int MaxSessionIDLength = 10;
         
