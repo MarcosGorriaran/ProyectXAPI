@@ -49,6 +49,7 @@ namespace ProyectXAPI.Controllers
 
                 session.SessionID = id;
                 DbSession.Insert(session);
+                Response.Data = DbSession.SelectById(id);
             }
             catch (Exception ex)
             {
