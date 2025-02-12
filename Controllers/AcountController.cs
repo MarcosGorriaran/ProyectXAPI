@@ -2,6 +2,7 @@
 using ProyectXAPI.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using ProyectXAPI.Utils;
+using BCrypt.Net;
 
 namespace ProyectXAPI.Controllers
 {
@@ -17,12 +18,12 @@ namespace ProyectXAPI.Controllers
         {
             CRUD<Acount> acountDB = new CRUD<Acount>();
             Acount searchedAcount = acountDB.SelectById(acount.Username);
-            return (searchedAcount.Password == acount.Password);
+            return BCrypt.Net.BCrypt.EnhancedVerify(acount.Password, searchedAcount.Password);
         }
         private bool CheckLogin(Acount acount, out Acount searchedAcount)
         {
             searchedAcount = DbSession.SelectById(acount.Username);
-            return (searchedAcount.Password == acount.Password);
+            return BCrypt.Net.BCrypt.EnhancedVerify(acount.Password,searchedAcount.Password);
         }
         [HttpPost("CheckLogin")]
         public ResponseDTO RequestLogin([FromBody] Acount acount)
@@ -55,6 +56,7 @@ namespace ProyectXAPI.Controllers
         {
             try
             {
+                acount.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(acount.Password);
                 DbSession.Insert(acount);
             } catch (Exception ex)
             {
