@@ -12,7 +12,7 @@ namespace ProyectXAPI.Maps
 
             CompositeId()
                 .KeyReference(x => x.Profile, "PROFILE", "PROFILECREATOR")
-                .KeyReference(x => x.Session, "SESSIONID");
+                .KeyReference(x => x.Session, "SESSION");
 
             Map(x => x.Kills).Column("KILLS");
             Map(x => x.Deaths).Column("DEATHS");
