@@ -16,14 +16,30 @@ namespace ProyectXAPI.Controllers
 
         public static bool CheckLogin(Acount acount)
         {
-            CRUD<Acount> acountDB = new CRUD<Acount>();
-            Acount searchedAcount = acountDB.SelectById(acount.Username);
-            return BCrypt.Net.BCrypt.EnhancedVerify(acount.Password, searchedAcount.Password);
+            try
+            {
+                CRUD<Acount> acountDB = new CRUD<Acount>();
+                Acount searchedAcount = acountDB.SelectById(acount.Username);
+                return BCrypt.Net.BCrypt.EnhancedVerify(acount.Password, searchedAcount.Password);
+            }
+            catch(NullReferenceException)
+            {
+                throw new Exception(WrongLogin);
+            }
+            
         }
         private bool CheckLogin(Acount acount, out Acount searchedAcount)
         {
-            searchedAcount = DbSession.SelectById(acount.Username);
-            return BCrypt.Net.BCrypt.EnhancedVerify(acount.Password,searchedAcount.Password);
+            try
+            {
+                searchedAcount = DbSession.SelectById(acount.Username);
+                return BCrypt.Net.BCrypt.EnhancedVerify(acount.Password, searchedAcount.Password);
+            }
+            catch (NullReferenceException)
+            {
+                throw new Exception(WrongLogin);
+            }
+            
         }
         [HttpPost("CheckLogin")]
         public ResponseDTO RequestLogin([FromBody] Acount acount)
