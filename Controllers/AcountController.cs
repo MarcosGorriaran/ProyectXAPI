@@ -3,6 +3,7 @@ using ProyectXAPI.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using ProyectXAPI.Utils;
 using BCrypt.Net;
+using NHibernate.Util;
 
 namespace ProyectXAPI.Controllers
 {
@@ -101,6 +102,10 @@ namespace ProyectXAPI.Controllers
                                 return false;
                             }
                         }).ToArray();
+                    foreach (Profile profile in profiles)
+                    {
+                        profile.Creator.Password = String.Empty;
+                    }
 
                     Response.Data = profiles;
                 }
@@ -146,7 +151,7 @@ namespace ProyectXAPI.Controllers
             {
                 if (CheckLogin(acount, out Acount hibernatedAcount))
                 {
-                    hibernatedAcount.Password = newPassword;
+                    hibernatedAcount.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(newPassword);
                     DbSession.Update(hibernatedAcount);
                 }
                 else
