@@ -149,6 +149,10 @@ namespace ProyectXAPI.Controllers
         {
             try
             {
+                if (acount.Password == newPassword)
+                {
+                    throw new Exception(WrongPassword);
+                }
                 if (CheckLogin(acount, out Acount hibernatedAcount))
                 {
                     hibernatedAcount.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(newPassword);
