@@ -23,11 +23,11 @@ namespace ProyectXAPI.Controllers
                 Acount searchedAcount = acountDB.SelectById(acount.Username);
                 return BCrypt.Net.BCrypt.EnhancedVerify(acount.Password, searchedAcount.Password);
             }
-            catch(NullReferenceException)
+            catch (NullReferenceException)
             {
                 throw new Exception(WrongLogin);
             }
-            
+
         }
         private bool CheckLogin(Acount acount, out Acount searchedAcount)
         {
@@ -40,7 +40,7 @@ namespace ProyectXAPI.Controllers
             {
                 throw new Exception(WrongLogin);
             }
-            
+
         }
         [HttpPost("CheckLogin")]
         public ResponseDTO RequestLogin([FromBody] Acount acount)
@@ -69,7 +69,7 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpPost("AddAcount")]
-        public ResponseDTO AddAcount(Acount acount)
+        public ResponseDTO AddAcount([FromBody] Acount acount)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpPost("GetAcountProfiles")]
-        public ResponseDTO GetAcountProfiles(Acount acount)
+        public ResponseDTO GetAcountProfiles([FromBody] Acount acount)
         {
             try
             {
@@ -122,7 +122,7 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpDelete("DeleteAcount")]
-        public ResponseDTO DeleteAcount(Acount acount)
+        public ResponseDTO DeleteAcount([FromBody] Acount acount)
         {
             try
             {
@@ -145,17 +145,17 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpPut("UpdatePassword")]
-        public ResponseDTO UpdateAcount(Acount acount,[FromBody] string newPassword)
+        public ResponseDTO UpdateAcount([FromBody] ChangePassword changeInfo)
         {
             try
             {
-                if (acount.Password == newPassword)
+                if (changeInfo.Password == changeInfo.NewPassword)
                 {
                     throw new Exception(WrongPassword);
                 }
-                if (CheckLogin(acount, out Acount hibernatedAcount))
+                if (CheckLogin(changeInfo, out Acount hibernatedAcount))
                 {
-                    hibernatedAcount.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(newPassword);
+                    hibernatedAcount.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(changeInfo.NewPassword);
                     DbSession.Update(hibernatedAcount);
                 }
                 else

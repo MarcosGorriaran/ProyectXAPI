@@ -3,7 +3,7 @@
     public class Acount : Model
     {
         const int MaxUsernameLength = 50;
-        const int MaxPasswordLength = 100;
+        protected const int MaxPasswordLength = 100;
         private string _username;
         private string _password;
         public virtual string Username 
