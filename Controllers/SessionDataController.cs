@@ -14,7 +14,21 @@ namespace ProyectXAPI.Controllers
         {
             try
             {
-                DbSession.InsertMany(dataSet);
+                List<SessionData> validData = new List<SessionData>();
+                foreach (SessionData data in dataSet)
+                {
+                    try
+                    {
+                        if (AcountController.CheckLogin(data.Profile.Creator))
+                        {
+                            validData.Add(data);
+                        }
+                        
+                    }
+                    catch (Exception) {}
+                    
+                }
+                DbSession.InsertMany(validData);
             }
             catch (Exception ex)
             {
@@ -43,11 +57,11 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpGet("GetProfileSessionData")]
-        public ResponseDTO GetSessionData(Profile profile)
+        public ResponseDTO GetSessionData(int id, string creatorName)
         {
             try
             {
-                SessionData[] dataSet = DbSession.SelectAll().Where(obj => obj.Profile.Equals(profile)).ToArray();
+                SessionData[] dataSet = DbSession.SelectAll().Where(obj => obj.Profile.Id==id && obj.Profile.Creator.Username == creatorName).ToArray();
                 foreach (SessionData data in dataSet)
                 {
                     data.Profile.Creator.Password = string.Empty;
@@ -81,11 +95,11 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpGet("GetSessionData")]
-        public ResponseDTO GetSessionData(Profile profile, int sessionID) 
+        public ResponseDTO GetSessionData(int id, string creatorName, int sessionID) 
         {
             try
             {
-                SessionData data = DbSession.SelectAll().Where(obj => obj.Session.SessionID == sessionID && obj.Profile.Equals(profile)).First();
+                SessionData data = DbSession.SelectAll().Where(obj => obj.Session.SessionID == sessionID && obj.Profile.Id == id && obj.Profile.Creator.Username == creatorName).First();
                 data.Profile.Creator.Password = string.Empty;
                 Response.Data = data;
             }
