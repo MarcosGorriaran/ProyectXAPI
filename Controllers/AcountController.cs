@@ -10,6 +10,7 @@ namespace ProyectXAPI.Controllers
     {
         public const string WrongLogin = "Incorrect login, check user and password";
         const string WrongPassword = "The new password can't be the same as the old password";
+        const string RepeatedUsername = "Ya hay una cuenta con el mismo username";
 
         public AcountController() : base()
         { }
@@ -72,7 +73,7 @@ namespace ProyectXAPI.Controllers
         {
             try
             {
-                if (DbSession.SelectById(acount.Username)!=null) 
+                if (DbSession.SelectById(acount.Username) != null) throw new Exception(RepeatedUsername);
                 acount.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(acount.Password);
                 DbSession.Insert(acount);
             } catch (Exception ex)
