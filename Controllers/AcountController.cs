@@ -10,7 +10,7 @@ namespace ProyectXAPI.Controllers
     {
         public const string WrongLogin = "Incorrect login, check user and password";
         const string WrongPassword = "The new password can't be the same as the old password";
-        const string RepeatedUsername = "Ya hay una cuenta con el mismo username";
+        const string RepeatedUsername = "There is an acount with the same username";
 
         public AcountController() : base()
         { }
