@@ -3,7 +3,6 @@ using ProyectXAPI.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using ProyectXAPI.Utils;
 using BCrypt.Net;
-using NHibernate.Util;
 
 namespace ProyectXAPI.Controllers
 {
@@ -23,11 +22,11 @@ namespace ProyectXAPI.Controllers
                 Acount searchedAcount = acountDB.SelectById(acount.Username);
                 return BCrypt.Net.BCrypt.EnhancedVerify(acount.Password, searchedAcount.Password);
             }
-            catch (NullReferenceException)
+            catch(NullReferenceException)
             {
                 throw new Exception(WrongLogin);
             }
-
+            
         }
         private bool CheckLogin(Acount acount, out Acount searchedAcount)
         {
@@ -40,7 +39,7 @@ namespace ProyectXAPI.Controllers
             {
                 throw new Exception(WrongLogin);
             }
-
+            
         }
         [HttpPost("CheckLogin")]
         public ResponseDTO RequestLogin([FromBody] Acount acount)
@@ -69,10 +68,11 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpPost("AddAcount")]
-        public ResponseDTO AddAcount([FromBody] Acount acount)
+        public ResponseDTO AddAcount([FromBody]Acount acount)
         {
             try
             {
+                if (DbSession.SelectById(acount.Username)!=null) 
                 acount.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(acount.Password);
                 DbSession.Insert(acount);
             } catch (Exception ex)
@@ -83,7 +83,7 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpPost("GetAcountProfiles")]
-        public ResponseDTO GetAcountProfiles([FromBody] Acount acount)
+        public ResponseDTO GetAcountProfiles(Acount acount)
         {
             try
             {
@@ -102,10 +102,6 @@ namespace ProyectXAPI.Controllers
                                 return false;
                             }
                         }).ToArray();
-                    foreach (Profile profile in profiles)
-                    {
-                        profile.Creator.Password = String.Empty;
-                    }
 
                     Response.Data = profiles;
                 }
@@ -122,7 +118,7 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpDelete("DeleteAcount")]
-        public ResponseDTO DeleteAcount([FromBody] Acount acount)
+        public ResponseDTO DeleteAcount(Acount acount)
         {
             try
             {
@@ -145,17 +141,13 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpPut("UpdatePassword")]
-        public ResponseDTO UpdateAcount([FromBody] ChangePassword changeInfo)
+        public ResponseDTO UpdateAcount([FromBody] ChangePassword changePassword)
         {
             try
             {
-                if (changeInfo.Password == changeInfo.NewPassword)
+                if (CheckLogin(changePassword, out Acount hibernatedAcount))
                 {
-                    throw new Exception(WrongPassword);
-                }
-                if (CheckLogin(changeInfo, out Acount hibernatedAcount))
-                {
-                    hibernatedAcount.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(changeInfo.NewPassword);
+                    hibernatedAcount.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(changePassword.NewPassword);
                     DbSession.Update(hibernatedAcount);
                 }
                 else
