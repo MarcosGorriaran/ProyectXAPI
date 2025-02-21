@@ -6,11 +6,23 @@ namespace ProyectXAPI
     public class Program
     {
         const string PostgressConStringName = "DefaultConnection";
+        public const string CORSPolicyName = "CORSPolicy";
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             SessionFactoryCloud.ConnectionString = builder.Configuration.GetConnectionString(PostgressConStringName) ?? String.Empty;
             // Add services to the container.
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: CORSPolicyName,
+                                  policy =>
+                                  {
+                                      policy.AllowAnyHeader()
+                                            .AllowAnyMethod()
+                                            .AllowAnyOrigin();
+                                  });
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
