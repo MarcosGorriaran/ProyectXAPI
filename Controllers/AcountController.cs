@@ -84,7 +84,7 @@ namespace ProyectXAPI.Controllers
             return Response;
         }
         [HttpPost("GetAcountProfiles")]
-        public ResponseDTO GetAcountProfiles(Acount acount)
+        public ResponseDTO GetAcountProfiles([FromBody]Acount acount)
         {
             try
             {
